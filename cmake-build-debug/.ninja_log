@@ -1,0 +1,7 @@
+# ninja log v6
+2	1096	1720462945918461990	CMakeFiles/SnakeGame.dir/src/controller.cpp.o	f342763a746d6633
+3	1134	1720462945918882692	CMakeFiles/SnakeGame.dir/src/renderer.cpp.o	385544ec6469b473
+3	1181	1720462945919305189	CMakeFiles/SnakeGame.dir/src/snake.cpp.o	f7def946293c7d7e
+1	1285	1720462945917356793	CMakeFiles/SnakeGame.dir/src/main.cpp.o	322a01a708424d83
+2	1315	1720462945917885295	CMakeFiles/SnakeGame.dir/src/game.cpp.o	1a87ddc67664258b
+1316	1381	1720462947231704206	SnakeGame	4099dec3c027df64
