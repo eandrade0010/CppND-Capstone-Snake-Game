@@ -8,6 +8,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
   PlaceFood();
+  PlaceBomb();
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -25,7 +26,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food);
+    renderer.Render(snake, food, bomb);
 
     frame_end = SDL_GetTicks();
 
@@ -72,9 +73,9 @@ void Game::PlaceBomb() {
     y = random_h(engine);
     // Check that the location is not occupied by a snake item before placing
     // food.
-    if (!snake.SnakeCell(x, y)) {
-      food.x = x;
-      food.y = y;
+    if (!snake.SnakeCell(x, y)  && x != food.x && y != food.y) {
+      bomb.x = x;
+      bomb.y = y;
       return;
     }
   }
@@ -95,6 +96,12 @@ void Game::Update() {
     // Grow snake and increase speed.
     snake.GrowBody();
     snake.speed += 0.02;
+  }
+
+  if (bomb.x == new_x && bomb.y == new_y) {
+    score--;
+    PlaceBomb();
+    //snake.ShrinkBody();
   }
 }
 
