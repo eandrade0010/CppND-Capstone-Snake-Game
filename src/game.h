@@ -14,11 +14,14 @@ class Game {
            std::size_t target_frame_duration);
   int GetScore() const;
   int GetSize() const;
+  void WriteScores();
 
  private:
   Snake snake;
   SDL_Point food;
   SDL_Point bomb;
+
+  std::string filePath{"../scores.txt"};
 
   std::random_device dev;
   std::mt19937 engine;

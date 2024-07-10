@@ -1,6 +1,9 @@
 #include "game.h"
 #include <iostream>
+#include <fstream>
 #include <SDL2/SDL.h>
+#include <chrono>
+#include <thread>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
@@ -80,6 +83,22 @@ void Game::PlaceBomb() {
     }
   }
 }
+
+void Game::WriteScores() {
+  std::string name;
+
+  while (name.empty()) {
+    std::cout << "Please enter an alphanumeric name: ";
+    std::cin >> name;
+  }
+
+  // writing name and score to file
+  std::ofstream myfile;
+  myfile.open(filePath, std::ios::app);
+  myfile << name << " " << score << std::endl;
+  myfile.close();
+}
+
 
 void Game::Update() {
   if (!snake.alive) return;
