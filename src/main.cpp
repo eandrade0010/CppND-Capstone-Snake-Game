@@ -18,6 +18,11 @@ int main() {
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.GetScore() << "\n";
   std::cout << "Size: " << game.GetSize() << "\n";
+
+  // Added the following to write scores to .txt file and check against high score
   game.WriteScores();
+  if (game.GetScore() > game.highScore) {
+    std::cout << "Congratulations, you have beat the high score of " << game.highScore;
+  }
   return 0;
 }

@@ -4,6 +4,8 @@
 #include <SDL2/SDL.h>
 #include <chrono>
 #include <thread>
+#include <future>
+#include <mutex>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
@@ -22,6 +24,10 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_duration;
   int frame_count = 0;
   bool running = true;
+
+  // Task is launched to read high score from text file while user is playing
+  std::future<int> future = std::async(&Game::ReadHighScore, this);
+  highScore = future.get();
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -92,6 +98,9 @@ void Game::WriteScores() {
     std::cin >> name;
   }
 
+  // locking access to score .txt file
+  std::lock_guard<std::mutex> lck(_mutex);
+
   // writing name and score to file
   std::ofstream myfile;
   myfile.open(filePath, std::ios::app);
@@ -99,6 +108,26 @@ void Game::WriteScores() {
   myfile.close();
 }
 
+int Game::ReadHighScore() {
+  // locking access to score .txt file
+  std::lock_guard<std::mutex> lck(_mutex);
+
+  int high_score{0};
+  std::string person, score;
+  std::string line;
+  std::ifstream filestream(filePath);
+  if (filestream.is_open()) {
+    while (std::getline(filestream, line)) {
+      std::istringstream linestream(line);
+      linestream >> person >> score;
+      if (std::stoi(score) >= high_score) {
+        high_score = std::stoi(score);
+      }
+    }
+  }
+  std::cout << "Current High Score is " << high_score << std::endl;
+  return high_score;
+}
 
 void Game::Update() {
   if (!snake.alive) return;
