@@ -147,7 +147,7 @@ void Game::Update() {
   }
 
   if (bomb.x == new_x && bomb.y == new_y) {
-    score--;
+    if (score > 0) score--;
     PlaceBomb();
     //snake.ShrinkBody();
   }
