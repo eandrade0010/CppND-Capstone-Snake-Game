@@ -20,7 +20,7 @@ class Game {
   int highScore{0};   // default initialized high score
 
  private:
-  Snake snake;
+  std::shared_ptr<Snake> snake;
   SDL_Point food;
   SDL_Point bomb;     // "destructive" object that acts opposite to food
 

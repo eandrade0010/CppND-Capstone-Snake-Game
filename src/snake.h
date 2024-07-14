@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <SDL2/SDL.h>
+#include <iostream>
 
 class Snake {
  public:
@@ -13,6 +14,8 @@ class Snake {
         grid_height(grid_height),
         head_x(grid_width / 2),
         head_y(grid_height / 2) {}
+
+  ~Snake() { std::cout << "Snake object destroyed"; }
 
   void Update();
 
