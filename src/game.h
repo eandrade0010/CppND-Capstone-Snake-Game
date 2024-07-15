@@ -17,6 +17,7 @@ class Game {
   int GetSize() const;
 
   void WriteScores(); // writes score to .txt file in higher directory
+
   int highScore{0};   // default initialized high score
 
  private:
@@ -34,7 +35,7 @@ class Game {
   int score{0};
 
   void PlaceFood();
-  void PlaceBomb();
+  void PlaceBomb();    // new method to place bomb
   void Update();
   int ReadHighScore(); // reads highest score from .txt file
 

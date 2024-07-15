@@ -15,6 +15,7 @@ class Snake {
         head_x(grid_width / 2),
         head_y(grid_height / 2) {}
 
+  // Destructor added
   ~Snake() { std::cout << "Snake object destroyed"; }
 
   void Update();

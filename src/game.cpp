@@ -11,8 +11,10 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
     : engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
+  // Initialize snared pointer to snake object
   snake = std::make_shared<Snake>(grid_width, grid_height);
   PlaceFood();
+  // Place a bomb at start of game
   PlaceBomb();
 }
 
@@ -76,6 +78,7 @@ void Game::PlaceFood() {
 }
 
 void Game::PlaceBomb() {
+  // Places bomb in similar fashion as food placement
   int x, y;
   while (true) {
     x = random_w(engine);
@@ -91,6 +94,7 @@ void Game::PlaceBomb() {
 }
 
 void Game::WriteScores() {
+  // Once game terminates, uses enters name which is appended to the scores file with score
   std::string name;
 
   while (name.empty()) {
@@ -146,6 +150,7 @@ void Game::Update() {
     snake->speed += 0.02;
   }
 
+  // Bomb is placed in new location and score will only reduce if positive
   if (bomb.x == new_x && bomb.y == new_y) {
     if (score > 0) score--;
     PlaceBomb();
