@@ -5,40 +5,33 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
-class Snake {
- public:
-  enum class Direction { kUp, kDown, kLeft, kRight };
+#include "hunters.h"
 
-  Snake(int grid_width, int grid_height)
-      : grid_width(grid_width),
-        grid_height(grid_height),
-        head_x(grid_width / 2),
-        head_y(grid_height / 2) {}
+class Snake : public Hunters {
+ public:
+
+  using Hunters::Hunters;
+  /*Snake(int grid_width, int grid_height, int offset)
+      : Hunters(grid_width, grid_height, offset) {}*/
 
   // Destructor added
   ~Snake() { std::cout << "Snake object destroyed"; }
 
-  void Update();
+  void Update () override;
 
   void GrowBody();
-  bool SnakeCell(int x, int y);
+  bool HunterCell(int x, int y) override;
 
   Direction direction = Direction::kUp;
 
-  float speed{0.1f};
   int size{1};
-  bool alive{true};
-  float head_x;
-  float head_y;
   std::vector<SDL_Point> body;
 
  private:
-  void UpdateHead();
+  void UpdateHead() override;
   void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
 
   bool growing{false};
-  int grid_width;
-  int grid_height;
 };
 
 #endif

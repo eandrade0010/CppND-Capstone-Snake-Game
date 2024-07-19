@@ -11,8 +11,9 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
     : engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
-  // Initialize snared pointer to snake object
-  snake = std::make_shared<Snake>(grid_width, grid_height);
+  // Initialize snared pointer to snake object, with an offset of half the grid_width and height (center)
+  snake = std::make_shared<Snake>(grid_width, grid_height, 2);
+  // Hunter hunter(grid_width, grid_height, 4);
   PlaceFood();
   // Place a bomb at start of game
   PlaceBomb();
@@ -69,7 +70,7 @@ void Game::PlaceFood() {
     y = random_h(engine);
     // Check that the location is not occupied by a snake item before placing
     // food.
-    if (!snake->SnakeCell(x, y)) {
+    if (!snake->HunterCell(x, y)) {
       food.x = x;
       food.y = y;
       return;
@@ -85,7 +86,7 @@ void Game::PlaceBomb() {
     y = random_h(engine);
     // Check that the location is not occupied by a snake item before placing
     // food.
-    if (!snake->SnakeCell(x, y)  && x != food.x && y != food.y) {
+    if (!snake->HunterCell(x, y)  && x != food.x && y != food.y) {
       bomb.x = x;
       bomb.y = y;
       return;

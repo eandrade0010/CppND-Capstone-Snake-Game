@@ -7,6 +7,7 @@
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
+#include "hunters.h"
 
 class Game {
  public:
@@ -22,8 +23,8 @@ class Game {
 
  private:
   std::shared_ptr<Snake> snake;
+  Hunter hunter;
   SDL_Point food;
-  SDL_Point bomb;     // "destructive" object that acts opposite to food
 
   std::string filePath{"../scores.txt"}; // path to score txt file
 
@@ -35,7 +36,6 @@ class Game {
   int score{0};
 
   void PlaceFood();
-  void PlaceBomb();    // new method to place bomb
   void Update();
   int ReadHighScore(); // reads highest score from .txt file
 
