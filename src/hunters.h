@@ -21,7 +21,6 @@ public:
     Direction direction = Direction::kDown;
 
     float speed{0.1f};
-    bool alive{true};
     float head_x;
     float head_y;
 
@@ -34,9 +33,9 @@ protected:
 
 class Hunter : public Hunters {
 public:
-    using Hunters::Hunters;
+    Hunter(int grid_width, int grid_height, int offset) : Hunters(grid_width, grid_height, offset){}
 
-    float speed{0.05f};
+    float speed{0.8f};
 
 };
 

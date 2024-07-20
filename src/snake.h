@@ -25,6 +25,7 @@ class Snake : public Hunters {
   Direction direction = Direction::kUp;
 
   int size{1};
+  bool alive{true};
   std::vector<SDL_Point> body;
 
  private:

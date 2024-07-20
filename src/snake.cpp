@@ -61,6 +61,7 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) 
       alive = false;
     }
   }
+
 }
 
 void Snake::GrowBody() { growing = true; }

@@ -10,13 +10,11 @@
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)) {
+      random_h(0, static_cast<int>(grid_height - 1)),
+      hunter(grid_width, grid_height, 4) {
   // Initialize snared pointer to snake object, with an offset of half the grid_width and height (center)
   snake = std::make_shared<Snake>(grid_width, grid_height, 2);
-  // Hunter hunter(grid_width, grid_height, 4);
   PlaceFood();
-  // Place a bomb at start of game
-  PlaceBomb();
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -36,9 +34,9 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake.get());
+    controller.HandleInput(running, snake.get(), hunter);
     Update();
-    renderer.Render(snake.get(), food, bomb);
+    renderer.Render(snake.get(), food, hunter);
 
     frame_end = SDL_GetTicks();
 
@@ -73,22 +71,6 @@ void Game::PlaceFood() {
     if (!snake->HunterCell(x, y)) {
       food.x = x;
       food.y = y;
-      return;
-    }
-  }
-}
-
-void Game::PlaceBomb() {
-  // Places bomb in similar fashion as food placement
-  int x, y;
-  while (true) {
-    x = random_w(engine);
-    y = random_h(engine);
-    // Check that the location is not occupied by a snake item before placing
-    // food.
-    if (!snake->HunterCell(x, y)  && x != food.x && y != food.y) {
-      bomb.x = x;
-      bomb.y = y;
       return;
     }
   }
@@ -138,6 +120,7 @@ void Game::Update() {
   if (!snake->alive) return;
 
   snake->Update();
+  hunter.Update();
 
   int new_x = static_cast<int>(snake->head_x);
   int new_y = static_cast<int>(snake->head_y);
@@ -151,10 +134,17 @@ void Game::Update() {
     snake->speed += 0.02;
   }
 
-  // Bomb is placed in new location and score will only reduce if positive
-  if (bomb.x == new_x && bomb.y == new_y) {
-    if (score > 0) score--;
-    PlaceBomb();
+  // Check if hunter has caught snake
+  SDL_Point hunter_cell{
+    static_cast<int>(hunter.head_x),
+    static_cast<int>(
+        hunter.head_y)};
+
+  for (auto const &item : snake->body) {
+    if (hunter_cell.x == item.x && hunter_cell.y == item.y) {
+      std::cout << "DEAD!!" << std::endl;
+      snake->alive = false;
+    }
   }
 }
 
