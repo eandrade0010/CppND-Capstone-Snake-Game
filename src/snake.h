@@ -8,9 +8,10 @@
 #include "hunters.h"
 
 class Snake : public Hunters {
- public:
+public:
 
-  using Hunters::Hunters;
+ // Copied constructor of base class
+ using Hunters::Hunters;
 
   // Destructor added
   ~Snake() { std::cout << "Snake object destroyed"; }

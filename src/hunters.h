@@ -1,10 +1,8 @@
 #ifndef HUNTERS_H
 #define HUNTERS_H
 
-#include <vector>
-#include <SDL2/SDL.h>
-#include <iostream>
 
+// Hunters class is a base class from which snake and Hunter derive their methods
 class Hunters {
 public:
     enum class Direction { kUp, kDown, kLeft, kRight };
@@ -35,15 +33,11 @@ protected:
 
 class Hunter : public Hunters {
 public:
-    using Hunters::Hunters;
+    Hunter(int grid_width, int grid_height, int offset) : Hunters(grid_width, grid_height, offset) {}
 
-    void Update() override;
-    bool HunterCell(int x, int y) override;
-
-    float speed{0.8f};
-
-private:
-    void UpdateHead() override;
+    float speed{0.1f};
+    int distance_x;
+    int distance_y;
 
 };
 

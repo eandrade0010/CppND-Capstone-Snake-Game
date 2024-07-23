@@ -19,6 +19,7 @@ class Game {
 
   void WriteScores(); // writes score to .txt file in higher directory
 
+  bool running;
   int highScore{0};   // default initialized high score
 
  private:

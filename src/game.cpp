@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <SDL2/SDL.h>
-#include <chrono>
+
 #include <thread>
 #include <future>
 #include <mutex>
@@ -11,7 +11,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
     : engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)),
-      hunter(grid_width, grid_height, 4) {
+      hunter(grid_width, grid_height, 4) { // Hunter competes with the snake for the food while also acting as a predator for the player
   // Initialize snared pointer to snake object, with an offset of half the grid_width and height (center)
   snake = std::make_shared<Snake>(grid_width, grid_height, 2);
   PlaceFood();
@@ -35,7 +35,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake.get());
-    // controller.Track(hunter, food);
+    controller.Track(running, hunter, food);
     Update();
     renderer.Render(snake.get(), food, hunter);
 
@@ -60,6 +60,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
       SDL_Delay(target_frame_duration - frame_duration);
     }
   }
+  return;
 }
 
 void Game::PlaceFood() {
@@ -143,9 +144,13 @@ void Game::Update() {
 
   for (auto const &item : snake->body) {
     if (hunter_cell.x == item.x && hunter_cell.y == item.y) {
-      std::cout << "DEAD!!" << std::endl;
       snake->alive = false;
     }
+  }
+
+  // Replace food if hunter has ate it
+  if (food.x == hunter_cell.x && food.y == hunter_cell.y) {
+    PlaceFood();
   }
 }
 

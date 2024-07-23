@@ -1,27 +1,21 @@
+#include <cmath>
 #include "hunters.h"
 
-void Hunter::Update() {
-    SDL_Point prev_cell{
-        static_cast<int>(head_x),
-        static_cast<int>(
-            head_y)};  // We first capture the head's cell before updating.
+void Hunters::Update() {
     UpdateHead();
 }
 
-void Hunter::UpdateHead() {
+void Hunters::UpdateHead() {
     switch (direction) {
         case Direction::kUp:
             head_y -= speed;
         break;
-
         case Direction::kDown:
             head_y += speed;
         break;
-
         case Direction::kLeft:
             head_x -= speed;
         break;
-
         case Direction::kRight:
             head_x += speed;
         break;
@@ -32,7 +26,8 @@ void Hunter::UpdateHead() {
     head_y = fmod(head_y + grid_height, grid_height);
 }
 
-bool Hunter::HunterCell(int x, int y) {
+// Method for checking if cell occupied by head of hunters
+bool Hunters::HunterCell(int x, int y) {
     if (x == static_cast<int>(head_x) && y == static_cast<int>(head_y)) {
         return true;
     }

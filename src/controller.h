@@ -5,11 +5,17 @@
 
 class Controller {
  public:
+
   void HandleInput(bool &running, Snake *snake) const;
-  void Track() const;
+
+ // Added method
+  void Track(bool &running, Hunter &hunter, SDL_Point &food) const;
+
 
  private:
-  void Hunt() const;
+ // Added method
+  void Hunt(Hunter &hunter) const;
+
   void ChangeDirection(Snake *snake, Snake::Direction input,
                        Snake::Direction opposite) const;
 };
