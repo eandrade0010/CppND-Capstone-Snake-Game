@@ -5,10 +5,12 @@
 
 class Controller {
  public:
-  void HandleInput(bool &running, Snake *snake, Hunter &hunter) const;
+  void HandleInput(bool &running, Snake *snake) const;
+  void Track() const;
 
  private:
-  void ChangeDirection(Snake *snake, Hunter &hunter, Snake::Direction input,
+  void Hunt() const;
+  void ChangeDirection(Snake *snake, Snake::Direction input,
                        Snake::Direction opposite) const;
 };
 

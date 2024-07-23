@@ -9,17 +9,19 @@ class Hunters {
 public:
     enum class Direction { kUp, kDown, kLeft, kRight };
 
+    // Hunters class is constructed using offset as a scaled offset from the x-y origin
     Hunters(int grid_width, int grid_height, int offset)
         : grid_width(grid_width),
           grid_height(grid_height),
-          head_x(grid_width/offset),
-          head_y(grid_height/offset) {}
+          head_x(grid_width /offset),
+          head_y(grid_height /offset) {}
 
     virtual void Update();
     virtual bool HunterCell(int x, int y);
 
-    Direction direction = Direction::kDown;
+    Direction direction = Direction::kUp;
 
+    bool alive{true};
     float speed{0.1f};
     float head_x;
     float head_y;
@@ -33,9 +35,15 @@ protected:
 
 class Hunter : public Hunters {
 public:
-    Hunter(int grid_width, int grid_height, int offset) : Hunters(grid_width, grid_height, offset){}
+    using Hunters::Hunters;
+
+    void Update() override;
+    bool HunterCell(int x, int y) override;
 
     float speed{0.8f};
+
+private:
+    void UpdateHead() override;
 
 };
 

@@ -11,8 +11,6 @@ class Snake : public Hunters {
  public:
 
   using Hunters::Hunters;
-  /*Snake(int grid_width, int grid_height, int offset)
-      : Hunters(grid_width, grid_height, offset) {}*/
 
   // Destructor added
   ~Snake() { std::cout << "Snake object destroyed"; }
@@ -25,7 +23,6 @@ class Snake : public Hunters {
   Direction direction = Direction::kUp;
 
   int size{1};
-  bool alive{true};
   std::vector<SDL_Point> body;
 
  private:

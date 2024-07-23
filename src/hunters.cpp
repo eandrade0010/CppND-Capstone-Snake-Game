@@ -1,6 +1,6 @@
 #include "hunters.h"
 
-void Hunters::Update() {
+void Hunter::Update() {
     SDL_Point prev_cell{
         static_cast<int>(head_x),
         static_cast<int>(
@@ -8,7 +8,7 @@ void Hunters::Update() {
     UpdateHead();
 }
 
-void Hunters::UpdateHead() {
+void Hunter::UpdateHead() {
     switch (direction) {
         case Direction::kUp:
             head_y -= speed;
@@ -32,7 +32,7 @@ void Hunters::UpdateHead() {
     head_y = fmod(head_y + grid_height, grid_height);
 }
 
-bool Hunters::HunterCell(int x, int y) {
+bool Hunter::HunterCell(int x, int y) {
     if (x == static_cast<int>(head_x) && y == static_cast<int>(head_y)) {
         return true;
     }
