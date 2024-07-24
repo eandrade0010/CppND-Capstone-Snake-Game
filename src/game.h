@@ -4,6 +4,7 @@
 #include <mutex>
 #include <random>
 #include <SDL2/SDL.h>
+#include <memory>
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
